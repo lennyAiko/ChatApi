@@ -1,8 +1,17 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express()
-const PORT = 5050
+const PORT = process.env.PORT
+
+mongoose.set("strictQuery", false)
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true}, () => {
+    console.log("DB connected.")
+})
 
 app.use(bodyParser.json())
 

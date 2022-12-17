@@ -5,7 +5,7 @@ const messageSchema = new mongoose.Schema({
     senderId: String,
     receiverId: String,
     Message: {type: Array, "default": []},
-    status: String,
+    status: {type: String, enum: ["Coffee", "Tea", "Water"]},
     date: {type: Date, default: Date.now}
 })
 

@@ -3,6 +3,8 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
+import friendRoutes from './routes/friends-route.js'
+
 dotenv.config()
 
 const app = express()
@@ -14,6 +16,9 @@ mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true}, () => {
 })
 
 app.use(bodyParser.json())
+
+// routes
+app.use('/friends', friendRoutes)
 
 app.get('/', (req, res) => res.send("Hello this is Chatify."))
 

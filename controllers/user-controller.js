@@ -3,11 +3,15 @@ import User from '../schemas/user-schema.js'
 export const getUsers = (req, res) => {
     User.find()
         .then((data, err) => {
-            const result = data.map(item => {return [
-                item.username, item.firstName, 
-                item.lastName, item.email, item.phoneNo
-            ]}
-            )
+            const result = data.map(item => {
+                return {
+                    "username": item.username, 
+                    "firstName": item.firstName, 
+                    "lastName": item.lastName, 
+                    "email": item.email, 
+                    "phoneNo": item.phoneNo
+                }
+            })
             res.send(result)
         })
 }

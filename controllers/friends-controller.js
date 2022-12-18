@@ -4,14 +4,14 @@ import User from '../schemas/user-schema.js'
 export const getFriends = (req, res) => {
     Friend.find()
         .then((data, err) => {
-            const result = data.map(item => {return {
-                "RequestSenderId": item.RequestSenderId, 
-                "RequestReceiverId": item.RequestReceiverId,
-                "status": item.status,
-                "date": item.date
-            }
-            }
-            )
+            const result = data.map(item => {
+                return {
+                    "RequestSenderId": item.RequestSenderId, 
+                    "RequestReceiverId": item.RequestReceiverId,
+                    "status": item.status,
+                    "date": item.date
+                }
+            })
             res.send(result)
         })
 }
@@ -28,14 +28,14 @@ export const createFriend = (req, res) => {
 export const friendRequest = (req, res) => {
     Friend.find({status: false})
         .then((data, err) => {
-            const result = data.map(item => {return {
-                "RequestSenderId": item.RequestSenderId, 
-                "RequestReceiverId": item.RequestReceiverId,
-                "status": item.status,
-                "date": item.date
-            }
-            }
-            )
+            const result = data.map(item => {
+                return {
+                    "RequestSenderId": item.RequestSenderId, 
+                    "RequestReceiverId": item.RequestReceiverId,
+                    "status": item.status,
+                    "date": item.date
+                }
+            })
             res.send(result)
         })
 }
@@ -43,14 +43,14 @@ export const friendRequest = (req, res) => {
 export const friendList = (req, res) => {
     Friend.find({status: true})
         .then((data, err) => {
-            const result = data.map(item => {return {
-                "RequestSenderId": item.RequestSenderId, 
-                "RequestReceiverId": item.RequestReceiverId,
-                "status": item.status,
-                "date": item.date
-            }
-            }
-            )
+            const result = data.map(item => {
+                return {
+                    "RequestSenderId": item.RequestSenderId, 
+                    "RequestReceiverId": item.RequestReceiverId,
+                    "status": item.status,
+                    "date": item.date
+                }
+            })
             res.send(result)
         })
 }

@@ -4,7 +4,15 @@ export const getReceiverMessage = (req, res) => {
     const { id } = req.params
     Message.find({receiverId: id})
         .then((data, err) => {
-            res.send(data)
+            const result = data.map(item => {
+                return {
+                    "senderId": item.senderId, 
+                    "receiverId": item.receiverId,
+                    "message": item.message,
+                    "date": item.date
+                }
+            })
+            res.send(result)
         })
 }
 
@@ -12,7 +20,15 @@ export const getSenderMessage = (req, res) => {
     const { id } = req.params
     Message.find({senderId: id})
         .then((data, err) => {
-            res.send(data)
+            const result = data.map(item => {
+                return {
+                    "senderId": item.senderId, 
+                    "receiverId": item.receiverId,
+                    "message": item.message,
+                    "date": item.date
+                }
+            })
+            res.send(result)
         })
 }
 

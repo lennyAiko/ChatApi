@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 
 import friendRoutes from './routes/friends-route.js'
+import userRoutes from './routes/user-route.js'
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ app.use(bodyParser.json())
 
 // routes
 app.use('/friends', friendRoutes)
+app.use('/users', userRoutes)
 
 app.get('/', (req, res) => res.send("Hello this is Chatify."))
 

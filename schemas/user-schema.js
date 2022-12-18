@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
 
 const userSchema = new mongoose.Schema({
-    id: String,
     username: String,
     firstName: String,
     lastName: String,

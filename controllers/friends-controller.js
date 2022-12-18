@@ -1,14 +1,18 @@
 import Friend from '../schemas/friends-schema.js'
+import User from '../schemas/user-schema.js'
 
 export const getFriends = (req, res) => {
     Friend.find()
         .then((data, err) => {
-            res.send(data)
+            const result = data.map(item => {return [
+                item.RequestSenderId, item.RequestReceiverId, item.date
+            ]}
+            )
+            res.send(result)
         })
 }
 
 export const createFriend = (req, res) => {    
-    console.log(req.body)
     Friend.create({
         RequestSenderId: req.body.RequestSenderId,
         RequestReceiverId: req.body.RequestReceiverId,
@@ -20,17 +24,26 @@ export const createFriend = (req, res) => {
 export const friendRequest = (req, res) => {
     Friend.find({status: false})
         .then((data, err) => {
-            res.send(data)
+            const result = data.map(item => {return [
+                item.RequestSenderId, item.RequestReceiverId, item.date
+            ]}
+            )
+            res.send(result)
         })
 }
 
 export const friendList = (req, res) => {
     Friend.find({status: true})
         .then((data, err) => {
-            res.send(data)
+            const result = data.map(item => {return [
+                item.RequestSenderId, item.RequestReceiverId, item.date
+            ]}
+            )
+            res.send(result)
         })
 }
 
+// search for user then show the details of the user
 export const getFriendDetails = (req, res) => {
     const { id } = req.params
 

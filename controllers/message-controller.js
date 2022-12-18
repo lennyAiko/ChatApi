@@ -42,10 +42,9 @@ export const modifyMessage = (req, res) => {
     const { id } = req.params
     const { status } = req.body
 
-    const message = Message.find((message) => message.id == id)
-
-    if (status) message.status = status
-
-    res.sendStatus(200)
+    Message.findOneAndUpdate({_id: id}, {status: status}, {new: true})
+        .then((data, err) => {
+            if (!err) res.sendStatus(202)
+        })
 
 }

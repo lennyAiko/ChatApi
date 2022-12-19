@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
 
 const adminSchema = new mongoose.Schema({
-    id: String,
     username: String,
     firstName: String,
     lastName: String,
@@ -9,6 +8,7 @@ const adminSchema = new mongoose.Schema({
     phoneNo: Number,
     password: String,
     apiKey: String,
+    token: String,
     date: {type: Date, default: Date.now}
 })
 

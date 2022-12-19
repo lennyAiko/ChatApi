@@ -6,14 +6,15 @@ import dotenv from 'dotenv'
 import friendRoutes from './routes/friends-route.js'
 import userRoutes from './routes/user-route.js'
 import messageRoutes from './routes/message-route.js'
+import authRoutes from './routes/auth-route.js'
 
 dotenv.config()
 
 const app = express()
-const PORT = process.env.PORT
+const {PORT, MONGO_URL} = process.env
 
 mongoose.set("strictQuery", false)
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true}, () => {
+mongoose.connect(MONGO_URL, {useNewUrlParser: true}, () => {
     console.log("DB connected.")
 })
 
@@ -23,6 +24,7 @@ app.use(bodyParser.json())
 app.use('/friends', friendRoutes)
 app.use('/users', userRoutes)
 app.use('/messages', messageRoutes)
+app.use('/auth', authRoutes)
 
 app.get('/', (req, res) => res.send("Hello this is Chatify."))
 

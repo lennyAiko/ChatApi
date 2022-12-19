@@ -62,6 +62,6 @@
     { "status": 508, "message": "Loop Detected " },
     { "status": 510, "message": "Not Extended " },
     { "status": 511, "message": "Network Authentication Required " },
-    { "status": 599, "message": "Network Connect Timeout Error" },
+    { "status": 599, "message": "Network Connect Timeout Error" }
 ]
 }    

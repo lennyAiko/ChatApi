@@ -24,7 +24,7 @@ export const userRegister = async (req, res) => {
             res.sendStatus(400)
         }
 
-        const oldUser = await User.findOne({ email })
+        const oldUser = await User.findOne({ username })
 
         const checkAdmin = await Admin.findOne({ key })
 
@@ -49,7 +49,7 @@ export const userRegister = async (req, res) => {
         })
 
         const token = jwt.sign(
-            { user_id: user.id, email },
+            { user_id: user.id, username },
             TOKEN_KEY,
             {
                 expiresIn: "2h"
@@ -58,9 +58,7 @@ export const userRegister = async (req, res) => {
 
         user.token = token
 
-        user.save()
-
-        res.sendStatus(201)
+        res.status(201).json(user);
     } catch (err) {
         console.log(err)
         res.sendStatus(500)
@@ -77,7 +75,7 @@ export const adminRegister = async (req, res) => {
             res.sendStatus(400)
         }
 
-        const oldUser = await Admin.findOne({ email })
+        const oldUser = await Admin.findOne({ username })
 
         if (oldUser) {
             return res.sendStatus(409)
@@ -96,7 +94,7 @@ export const adminRegister = async (req, res) => {
         })
 
         const token = jwt.sign(
-            { admin_id: admin.id, email },
+            { admin_id: admin.id, username },
             TOKEN_KEY,
             {
                 expiresIn: "2h"
@@ -105,9 +103,7 @@ export const adminRegister = async (req, res) => {
 
         admin.token = token
 
-        admin.save()
-
-        res.sendStatus(201)
+        res.status(201).json(admin);
     } catch (err) {
         console.log(err)
         res.sendStatus(500)
@@ -123,11 +119,11 @@ export const userLogin = async (req, res) => {
             res.sendStatus(400)
         }
 
-        const user = await User.findOne({ email })
+        const user = await User.findOne({ username })
 
         if (user && (await bcrypt.compare(password, user.password))) {
             const token = jwt.sign(
-                { user_id: user._id, email },
+                { user_id: user._id, username },
                 TOKEN_KEY,
                 {
                     expiresIn: "2h",
@@ -136,11 +132,8 @@ export const userLogin = async (req, res) => {
 
             user.token = token
 
-            user.save()
-
-            res.sendStatus(200)
+            res.status(201).json(user);
         }
-        res.sendStatus(400)
     } catch (err) {
         console.log(err)
         res.sendStatus(500)
@@ -155,11 +148,11 @@ export const adminLogin = async (req, res) => {
             res.sendStatus(400)
         }
 
-        const admin = await Admin.findOne({ email })
+        const admin = await Admin.findOne({ username })
 
-        if (admin && (await bcrypt.compare(password, user.password))) {
+        if (admin && (await bcrypt.compare(password, admin.password))) {
             const token = jwt.sign(
-                { admin_id: admin._id, email },
+                { admin_id: admin._id, username },
                 TOKEN_KEY,
                 {
                     expiresIn: "2h",
@@ -168,11 +161,16 @@ export const adminLogin = async (req, res) => {
 
             admin.token = token
 
-            res.sendStatus(200)
+            res.status(201).json(admin);
         }
-        res.sendStatus(400)
     } catch (err) {
         console.log(err)
         res.sendStatus(500)
     }
+}
+
+export const getToken = (req, res, next) => {
+
+    console.log(req.user)
+    next()
 }

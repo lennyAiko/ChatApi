@@ -1,9 +1,10 @@
 import express from "express";
 import { createFriend, friendList, friendRequest, getFriendDetails, getFriends } from "../controllers/friends-controller.js";
+import { verifyToken as auth } from '../middleware/auth-middleware.js'
 
 const router = express.Router()
 
-router.get('/', getFriends)
+router.get('/', auth, getFriends)
 
 router.post('/', createFriend)
 

@@ -16,6 +16,7 @@ export const verifyToken = (req, res, next) => {
         const decoded = jwt.verify(token, TOKEN_KEY)
         req.user = decoded
     } catch (err) {
+        console.log(err)
         return res.sendStatus(401)
     }
     return next()

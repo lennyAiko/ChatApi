@@ -16,16 +16,16 @@ export const getUsers = (req, res) => {
         })
 }
 
-export const createUser = (req, res) => {    
-    const files = req.body
-    User.create({
-        username: files.username,
-        firstName: files.firstName,
-        lastName: files.lastName,
-        email: files.email,
-        phoneNo: files.phoneNo,
-        password: files.password,
-        adminId: files.adminId,
-    }, (err, data) => { if (err) return handleError(err) })
-    res.sendStatus(200);
-}
+// export const createUser = (req, res) => {    
+//     const files = req.body
+//     User.create({
+//         username: files.username,
+//         firstName: files.firstName,
+//         lastName: files.lastName,
+//         email: files.email,
+//         phoneNo: files.phoneNo,
+//         password: files.password,
+//         adminId: files.adminId,
+//     }, (err, data) => { if (err) return handleError(err) })
+//     res.sendStatus(200);
+// }

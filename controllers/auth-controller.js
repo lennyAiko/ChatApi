@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import dotenv from 'dotenv'
 
+import jwt from "jsonwebtoken"
+
 dotenv.config()
 
 const {TOKEN_KEY} = process.env
@@ -16,11 +18,19 @@ export const userRegister = async (req, res) => {
 
         const adminId = req.params
 
+        const key = req.params
+
         if (!(username && firstName && lastName && email && password)) {
             res.sendStatus(400)
         }
 
         const oldUser = await User.findOne({ email })
+
+        const checkAdmin = await Admin.findOne({ key })
+
+        if (!checkAdmin) {
+            res.sendStatus(403)
+        }
 
         if (oldUser) {
             return res.sendStatus(409)
@@ -28,7 +38,7 @@ export const userRegister = async (req, res) => {
 
         let passwordEncrypt = await bcrypt.hash(password, 10)
 
-        const user = User.create({
+        const user = await User.create({
             username,
             firstName,
             lastName,
@@ -48,6 +58,8 @@ export const userRegister = async (req, res) => {
 
         user.token = token
 
+        user.save()
+
         res.sendStatus(201)
     } catch (err) {
         console.log(err)
@@ -61,8 +73,6 @@ export const adminRegister = async (req, res) => {
 
         const { username, firstName, lastName, email, phoneNo, password } = req.body
 
-        const key = req.params
-
         if (!(username && firstName && lastName && email && password)) {
             res.sendStatus(400)
         }
@@ -75,14 +85,14 @@ export const adminRegister = async (req, res) => {
 
         let passwordEncrypt = await bcrypt.hash(password, 10)
 
-        const admin = Admin.create({
+        const admin = await Admin.create({
             username,
             firstName,
             lastName,
             email: email.toLowerCase(),
-            phoneNo,
+            phoneNo: Number(phoneNo),
             password: passwordEncrypt,
-            adminId,
+            apiKey: uuidv4()
         })
 
         const token = jwt.sign(
@@ -94,6 +104,8 @@ export const adminRegister = async (req, res) => {
         )
 
         admin.token = token
+
+        admin.save()
 
         res.sendStatus(201)
     } catch (err) {
@@ -107,7 +119,7 @@ export const userLogin = async (req, res) => {
     try {
         const { username, password } = req.body
 
-        if(!(email && password)) {
+        if(!(username && password)) {
             res.sendStatus(400)
         }
 
@@ -123,6 +135,8 @@ export const userLogin = async (req, res) => {
             )
 
             user.token = token
+
+            user.save()
 
             res.sendStatus(200)
         }
@@ -137,22 +151,22 @@ export const adminLogin = async (req, res) => {
     try {
         const { username, password } = req.body
 
-        if(!(email && password)) {
+        if(!(username && password)) {
             res.sendStatus(400)
         }
 
-        const user = await User.findOne({ email })
+        const admin = await Admin.findOne({ email })
 
-        if (user && (await bcrypt.compare(password, user.password))) {
+        if (admin && (await bcrypt.compare(password, user.password))) {
             const token = jwt.sign(
-                { user_id: user._id, email },
+                { admin_id: admin._id, email },
                 TOKEN_KEY,
                 {
                     expiresIn: "2h",
                 }
             )
 
-            user.token = token
+            admin.token = token
 
             res.sendStatus(200)
         }

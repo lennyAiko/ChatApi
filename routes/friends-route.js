@@ -6,12 +6,12 @@ const router = express.Router()
 
 router.get('/', auth, getFriends)
 
-router.post('/', createFriend)
+router.post('/', auth, createFriend)
 
-router.get('/requests', friendRequest)
+router.get('/requests', auth, friendRequest)
 
-router.get('/list', friendList)
+router.get('/list', auth, friendList)
 
-router.get('/list/:id', getFriendDetails)
+router.get('/list/:id', auth, getFriendDetails)
 
 export default router

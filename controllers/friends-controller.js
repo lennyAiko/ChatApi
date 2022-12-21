@@ -64,3 +64,20 @@ export const getFriendDetails = (req, res) => {
             res.send(data)
         })
 }
+
+export const searchFriend = (req, res) => {
+    const key = req.params
+
+    Friend.find({ key })
+        .then((data, err) => {
+            const result = data.map(item => {
+                return {
+                    "RequestSenderId": item.RequestSenderId, 
+                    "RequestReceiverId": item.RequestReceiverId,
+                    "status": item.status,
+                    "date": item.date
+                }
+            })
+            res.send(result)
+        })
+}

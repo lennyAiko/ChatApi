@@ -161,6 +161,8 @@ export const userLogin = async (req, res) => {
             }
 
             res.status(201).json(data);
+        } else {
+            res.sendStatus(403)
         }
     } catch (err) {
         console.log(err)

@@ -16,16 +16,20 @@ export const getUsers = (req, res) => {
         })
 }
 
-// export const createUser = (req, res) => {    
-//     const files = req.body
-//     User.create({
-//         username: files.username,
-//         firstName: files.firstName,
-//         lastName: files.lastName,
-//         email: files.email,
-//         phoneNo: files.phoneNo,
-//         password: files.password,
-//         adminId: files.adminId,
-//     }, (err, data) => { if (err) return handleError(err) })
-//     res.sendStatus(200);
-// }
+export const searchUser = (req, res) => {
+    const key = req.params
+
+    User.find({ key })
+        .then((data, err) => {
+            const result = data.map(item => {
+                return {
+                    "username": item.username, 
+                    "firstName": item.firstName, 
+                    "lastName": item.lastName, 
+                    "email": item.email, 
+                    "phoneNo": item.phoneNo
+                }
+            })
+            res.send(result)
+        })
+}

@@ -16,7 +16,7 @@ export const userRegister = async (req, res) => {
 
         const { username, firstName, lastName, email, phoneNo, password } = req.body
 
-        const adminId = req.params
+        const adminId = req.user.adminId
 
         const key = req.params
 
@@ -45,7 +45,7 @@ export const userRegister = async (req, res) => {
             email: email.toLowerCase(),
             phoneNo,
             password: passwordEncrypt,
-            adminId,
+            adminId
         })
 
         const token = jwt.sign(
@@ -58,10 +58,19 @@ export const userRegister = async (req, res) => {
 
         user.token = token
 
-        res.status(201).json(user);
+        const data = {
+            "username": user.username,
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "email": user.email,
+            "phoneNo": user.phoneNo,
+            "token": user.token
+        }
+
+        res.status(201).json(data);
     } catch (err) {
         console.log(err)
-        res.sendStatus(500)
+        res.status(500).send("Invalid")
     }
 }
 
@@ -103,7 +112,16 @@ export const adminRegister = async (req, res) => {
 
         admin.token = token
 
-        res.status(201).json(admin);
+        const data = {
+            "username": admin.username,
+            "firstName": admin.firstName,
+            "lastName": admin.lastName,
+            "email": admin.email,
+            "phoneNo": admin.phoneNo,
+            "token": admin.token
+        }
+
+        res.status(201).json(data);
     } catch (err) {
         console.log(err)
         res.sendStatus(500)
@@ -131,8 +149,17 @@ export const userLogin = async (req, res) => {
             )
 
             user.token = token
+            
+            const data = {
+                "username": user.username,
+                "firstName": user.firstName,
+                "lastName": user.lastName,
+                "email": user.email,
+                "phoneNo": user.phoneNo,
+                "token": user.token
+            }
 
-            res.status(201).json(user);
+            res.status(201).json(data);
         }
     } catch (err) {
         console.log(err)
@@ -161,7 +188,16 @@ export const adminLogin = async (req, res) => {
 
             admin.token = token
 
-            res.status(201).json(admin);
+            const data = {
+                "username": admin.username,
+                "firstName": admin.firstName,
+                "lastName": admin.lastName,
+                "email": admin.email,
+                "phoneNo": admin.phoneNo,
+                "token": admin.token
+            }
+
+            res.status(201).json(data);
         }
     } catch (err) {
         console.log(err)

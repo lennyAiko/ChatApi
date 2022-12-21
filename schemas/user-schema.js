@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
     phoneNo: Number,
     password: String,
     adminId: String,
-    token: String,
     date: {type: Date, default: Date.now}
 })
 

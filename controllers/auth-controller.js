@@ -8,6 +8,8 @@ import jwt from "jsonwebtoken"
 
 dotenv.config()
 
+const TOKENSESSION = "4h"
+
 const {TOKEN_KEY} = process.env
 
 export const userRegister = async (req, res) => {
@@ -15,8 +17,6 @@ export const userRegister = async (req, res) => {
     try {
 
         const { username, firstName, lastName, email, phoneNo, password } = req.body
-
-        const adminId = req.user.adminId
 
         const apiKey = req.headers["apikey"]
 
@@ -44,14 +44,14 @@ export const userRegister = async (req, res) => {
                 email: email.toLowerCase(),
                 phoneNo,
                 password: passwordEncrypt,
-                adminId
+                adminId: apiKey
             })
     
             const token = jwt.sign(
                 { user_id: user.id, username },
                 TOKEN_KEY,
                 {
-                    expiresIn: "2h"
+                    expiresIn: TOKENSESSION
                 }
             )
     
@@ -107,7 +107,7 @@ export const adminRegister = async (req, res) => {
             { admin_id: admin.id, username },
             TOKEN_KEY,
             {
-                expiresIn: "2h"
+                expiresIn: TOKENSESSION
             }
         )
 
@@ -145,7 +145,7 @@ export const userLogin = async (req, res) => {
                 { user_id: user._id, username },
                 TOKEN_KEY,
                 {
-                    expiresIn: "2h",
+                    expiresIn: TOKENSESSION,
                 }
             )
 
@@ -159,7 +159,6 @@ export const userLogin = async (req, res) => {
                 "phoneNo": user.phoneNo,
                 "token": user.token
             }
-
             res.status(201).json(data);
         } else {
             res.sendStatus(403)
@@ -185,7 +184,7 @@ export const adminLogin = async (req, res) => {
                 { admin_id: admin._id, username },
                 TOKEN_KEY,
                 {
-                    expiresIn: "2h",
+                    expiresIn: TOKENSESSION,
                 }
             )
 

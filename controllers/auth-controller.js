@@ -18,7 +18,7 @@ export const userRegister = async (req, res) => {
 
         const adminId = req.user.adminId
 
-        const key = req.params
+        const apiKey = req.headers["apikey"]
 
         if (!(username && firstName && lastName && email && password)) {
             res.sendStatus(400)
@@ -26,48 +26,49 @@ export const userRegister = async (req, res) => {
 
         const oldUser = await User.findOne({ username })
 
-        const checkAdmin = await Admin.findOne({ key })
+        const checkAdmin = await Admin.findOne({ apiKey })
 
         if (!checkAdmin) {
             res.sendStatus(403)
-        }
-
-        if (oldUser) {
-            return res.sendStatus(409)
-        }
-
-        let passwordEncrypt = await bcrypt.hash(password, 10)
-
-        const user = await User.create({
-            username,
-            firstName,
-            lastName,
-            email: email.toLowerCase(),
-            phoneNo,
-            password: passwordEncrypt,
-            adminId
-        })
-
-        const token = jwt.sign(
-            { user_id: user.id, username },
-            TOKEN_KEY,
-            {
-                expiresIn: "2h"
+        } else {
+            if (oldUser) {
+                return res.sendStatus(409)
             }
-        )
-
-        user.token = token
-
-        const data = {
-            "username": user.username,
-            "firstName": user.firstName,
-            "lastName": user.lastName,
-            "email": user.email,
-            "phoneNo": user.phoneNo,
-            "token": user.token
+    
+            let passwordEncrypt = await bcrypt.hash(password, 10)
+    
+            const user = await User.create({
+                username,
+                firstName,
+                lastName,
+                email: email.toLowerCase(),
+                phoneNo,
+                password: passwordEncrypt,
+                adminId
+            })
+    
+            const token = jwt.sign(
+                { user_id: user.id, username },
+                TOKEN_KEY,
+                {
+                    expiresIn: "2h"
+                }
+            )
+    
+            user.token = token
+    
+            const data = {
+                "username": user.username,
+                "firstName": user.firstName,
+                "lastName": user.lastName,
+                "email": user.email,
+                "phoneNo": user.phoneNo,
+                "token": user.token
+            }
+    
+            res.status(201).json(data);
         }
 
-        res.status(201).json(data);
     } catch (err) {
         console.log(err)
         res.status(500).send("Invalid")

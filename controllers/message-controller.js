@@ -66,14 +66,13 @@ export const modifyMessage = (req, res) => {
 }
 
 export const filterMessage = (req, res) => {
-    const filterChoice = req.header['filter-choice']
 
-    let filter = []
+    const filterChoice = req.headers['choice']
+    const filter = []
 
     Message.find({})
         .then((data, err) => {
-            if (data.status == filterChoice) filter.push(data)
+            data.map((item) => { if (item.status === filterChoice) { filter.push(item) } })
+            res.status(200).send(filter)
         })
-    console.log(filter)
-    res.status(200).send(filter)
 }

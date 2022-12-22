@@ -12,6 +12,6 @@ router.get('/sender/:id', auth, getSenderMessage)
 
 router.patch('/:id', auth, modifyMessage)
 
-router.get('/', auth, filterMessage)
+router.get('/filter', auth, filterMessage)
 
 export default router

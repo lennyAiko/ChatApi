@@ -7,6 +7,7 @@ import friendRoutes from './routes/friends-route.js'
 import userRoutes from './routes/user-route.js'
 import messageRoutes from './routes/message-route.js'
 import authRoutes from './routes/auth-route.js'
+import analyticsRoutes from './routes/analytics-route.js'
 
 dotenv.config()
 
@@ -25,6 +26,7 @@ app.use('/friends', friendRoutes)
 app.use('/users', userRoutes)
 app.use('/messages', messageRoutes)
 app.use('/auth', authRoutes)
+app.use('/analytics', analyticsRoutes)
 
 app.get('/', (req, res) => res.send("Hello this is Chatify."))
 

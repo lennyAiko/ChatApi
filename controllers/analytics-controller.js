@@ -1,9 +1,10 @@
 import Friend from "../schemas/friends-schema.js"
+import Message from "../schemas/message-schema.js"
 import User from "../schemas/user-schema.js"
 
 // USER ANALYTICS
 
-export const totalMessages = (req, res) => {
+export const userTotalMessages = (req, res) => {
     
     const { userId } = req.params || req.headers['user-id']
 
@@ -17,7 +18,7 @@ export const totalMessages = (req, res) => {
 
 }
 
-export const totalFriends = (req, res) => {
+export const userTotalFriends = (req, res) => {
 
     let count = 0
 
@@ -35,12 +36,17 @@ export const totalFriends = (req, res) => {
 // DEV ANALYTICS
 
 export const totalUser = (req, res) => {
-    
-    let count = 0
 
-    User.find({ adminId: req.headers['user-id'] })
+    User.find({ adminId: req.headers['apikey'] })
         .then(data => {
-            data.map(item => count+=1)
-            res.status(200).send(String(count))
+            res.status(200).send(String(data.length))
+        })
+}
+
+export const totalMessages = (req, res) => {
+
+    Message.find()
+        .then(data => {
+            res.status(200).send(String(data.length))
         })
 }

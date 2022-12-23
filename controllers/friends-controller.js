@@ -59,7 +59,7 @@ export const friendList = (req, res) => {
 export const getFriendDetails = (req, res) => {
     const { id } = req.params
 
-    Friend.find({RequestSenderId: id})
+    User.find({_id: id})
         .then((data, err) => {
             res.send(data)
         })

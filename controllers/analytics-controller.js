@@ -64,7 +64,7 @@ export const topUsers = async (req, res) => {
 
     const users = await User.find({})
 
-    var stat = {}
+    let stat = {}
 
     const promises = users.map(user => {
         const getId = user._id.toHexString()
@@ -73,8 +73,18 @@ export const topUsers = async (req, res) => {
             return stat
         })
     })
+    
+    await Promise.all(promises)
 
-    const getTopUsers = await Promise.all(promises)
+    // sorting started
+    var items = Object.keys(stat).map(key => {
+        return [key, stat[key]]
+    })
 
-    res.status(200).send(stat)
+    items.sort((first, second) => {
+        return second[1] - first[1]
+    })
+    // sorting ended
+
+    res.status(200).send(items.slice(0, 5))
 }

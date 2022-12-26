@@ -50,3 +50,31 @@ export const totalMessages = (req, res) => {
             res.status(200).send(String(data.length))
         })
 }
+
+const getUserMessage = async (user) => {
+    const count = await Message.find({ senderId: user })
+
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(count.length), 300);
+      });
+
+}
+
+export const topUsers = async (req, res) => {
+
+    const users = await User.find({})
+
+    var stat = {}
+
+    const promises = users.map(user => {
+        const getId = user._id.toHexString()
+        return getUserMessage(getId).then(data => {
+            stat[getId] = data
+            return stat
+        })
+    })
+
+    const getTopUsers = await Promise.all(promises)
+
+    res.status(200).send(stat)
+}

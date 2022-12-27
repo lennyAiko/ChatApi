@@ -33,3 +33,18 @@ export const searchUser = (req, res) => {
             res.send(result)
         })
 }
+
+export const modifyUser = (req, res) => {
+    const key = req.params
+
+    const data = req.body
+
+    User.findOneAndUpdate(
+        {_id: key},
+        {...data},
+        {new: true}
+    )
+        .then(data => {
+            if (data) res.sendStatus(202)
+        })
+}

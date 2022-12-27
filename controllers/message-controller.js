@@ -75,7 +75,7 @@ export const modifyMessage = (req, res) => {
 
 export const filterMessage = (req, res) => {
 
-    const filterChoice = req.headers['choice']
+    const filterChoice = req.params
     const filter = []
 
     Message.find({})

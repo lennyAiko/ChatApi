@@ -1,0 +1,10 @@
+import express from 'express'
+import { verifyToken as auth,  } from '../middleware/auth-middleware.js'
+import { checkAdmin } from '../middleware/admin-middleware.js'
+import { modifyAdmin } from '../controllers/admin-controller.js'
+
+const router = express.Router()
+
+router.patch('/:id', [auth, checkAdmin], modifyAdmin)
+
+export default router

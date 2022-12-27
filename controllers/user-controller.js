@@ -39,11 +39,7 @@ export const modifyUser = (req, res) => {
 
     const data = req.body
 
-    User.findOneAndUpdate(
-        {_id: key},
-        {...data},
-        {new: true}
-    )
+    User.findOneAndUpdate({_id: key}, {...data}, {new: true})
         .then(data => {
             if (data) res.sendStatus(202)
         })

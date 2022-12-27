@@ -1,4 +1,5 @@
 import Message from '../schemas/message-schema.js'
+import sharp from 'sharp'
 
 export const getReceiverMessage = (req, res) => {
     const { id } = req.params

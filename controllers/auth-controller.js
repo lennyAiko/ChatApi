@@ -18,6 +18,8 @@ export const userRegister = async (req, res) => {
 
         const { username, firstName, lastName, email, phoneNo, password } = req.body
 
+        const image = req.file.path
+
         const apiKey = req.headers["apikey"]
 
         if (!(username && firstName && lastName && email && password)) {
@@ -44,6 +46,7 @@ export const userRegister = async (req, res) => {
                 email: email.toLowerCase(),
                 phoneNo,
                 password: passwordEncrypt,
+                image,
                 adminId: apiKey
             })
     
@@ -65,6 +68,7 @@ export const userRegister = async (req, res) => {
                 "lastName": user.lastName,
                 "email": user.email,
                 "phoneNo": user.phoneNo,
+                "image": user.image,
                 "token": user.token
             }
 
@@ -84,6 +88,8 @@ export const adminRegister = async (req, res) => {
 
         const { username, firstName, lastName, email, phoneNo, password } = req.body
 
+        const image = req.file.path
+
         if (!(username && firstName && lastName && email && password)) {
             res.sendStatus(400)
         }
@@ -102,6 +108,7 @@ export const adminRegister = async (req, res) => {
             lastName,
             email: email.toLowerCase(),
             phoneNo: Number(phoneNo),
+            image,
             password: passwordEncrypt,
             apiKey: uuidv4()
         })
@@ -123,6 +130,7 @@ export const adminRegister = async (req, res) => {
             "firstName": admin.firstName,
             "lastName": admin.lastName,
             "email": admin.email,
+            "image": admin.image,
             "phoneNo": admin.phoneNo,
             "token": admin.token
         }

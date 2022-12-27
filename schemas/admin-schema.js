@@ -7,6 +7,7 @@ const adminSchema = new mongoose.Schema({
     email: String,
     phoneNo: Number,
     password: String,
+    image: String,
     apiKey: String,
     token: String,
     date: {type: Date, default: Date.now}

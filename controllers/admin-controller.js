@@ -5,8 +5,14 @@ export const modifyAdmin = (req, res) => {
 
     const data = req.body
 
-    Admin.findOneAndUpdate({_id: key}, {...data}, {new: true})
+    try {
+        Admin.findOneAndUpdate({_id: key}, {...data}, {new: true})
         .then(data => {
             if (data) res.sendStatus(202)
         })
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(400)
+    }
+    
 }

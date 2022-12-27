@@ -82,6 +82,7 @@ export const filterMessage = (req, res) => {
         .then((data, err) => {
             data.map((item) => { 
                 if (item.status === filterChoice) {
+                    item.message = decrypt(item.message)
                     filter.push(item) 
                 } 
             })

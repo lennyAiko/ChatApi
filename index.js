@@ -21,6 +21,8 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true}, () => {
 
 app.use(bodyParser.json())
 
+app.use('/uploads', express.static('uploads'))
+
 // routes
 app.use('/friends', friendRoutes)
 app.use('/users', userRoutes)

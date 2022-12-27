@@ -9,6 +9,7 @@ export const getReceiverMessage = (req, res) => {
                     "senderId": item.senderId, 
                     "receiverId": item.receiverId,
                     "message": item.message,
+                    "image": item.image,
                     "date": item.date
                 }
             })
@@ -25,6 +26,7 @@ export const getSenderMessage = (req, res) => {
                     "senderId": item.senderId, 
                     "receiverId": item.receiverId,
                     "message": item.message,
+                    "image": item.image,
                     "date": item.date
                 }
             })
@@ -33,22 +35,22 @@ export const getSenderMessage = (req, res) => {
 }
 
 export const createMessage = (req, res) => {
-    const files = req.body
 
-    if (files.message[1]) {
+    if (req.file.path) {
         Message.create({
-            senderId: files.senderId,
-            receiverId: files.receiverId,
-            message: files.message,
-            status: files.status
+            senderId: req.body.senderId,
+            receiverId: req.body.receiverId,
+            message: req.body.message,
+            image: req.file.path,
+            status: req.body.status 
         }, (err, data) => { if (err) return handleError(err) })
         res.sendStatus(200);
     } else {
         Message.create({
-            senderId: files.senderId,
-            receiverId: files.receiverId,
-            message: files.message[0],
-            status: files.status
+            senderId: req.body.senderId,
+            receiverId: req.body.receiverId,
+            message: req.body.message,
+            status: req.body.status 
         }, (err, data) => { if (err) return handleError(err) })
         res.sendStatus(200);
     }

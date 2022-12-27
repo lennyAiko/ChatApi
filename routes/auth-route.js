@@ -2,8 +2,6 @@ import express from 'express'
 
 import { adminLogin, adminRegister, userLogin, userRegister } from "../controllers/auth-controller.js"
 
-import { verifyToken as auth } from '../middleware/auth-middleware.js'
-
 const router = express.Router()
 
 router.post('/user_register', userRegister)

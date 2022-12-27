@@ -174,6 +174,7 @@ export const userLogin = async (req, res) => {
                 "lastName": user.lastName,
                 "email": user.email,
                 "phoneNo": user.phoneNo,
+                "image": user.image,
                 "token": user.token
             }
             res.status(201).json(data);
@@ -215,6 +216,7 @@ export const adminLogin = async (req, res) => {
                 "lastName": admin.lastName,
                 "email": admin.email,
                 "phoneNo": admin.phoneNo,
+                "image": admin.image,
                 "token": admin.token
             }
 

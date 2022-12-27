@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 const messageSchema = new mongoose.Schema({
     senderId: String,
     receiverId: String,
-    message: String,
+    message: {},
     image: String,
     status: {type: String, enum: ["read", "unread"]},
     date: {type: Date, default: Date.now}

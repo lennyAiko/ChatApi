@@ -8,9 +8,9 @@ const router = express.Router()
 
 router.post('/', [auth, checkUser, upload.single('image')], createMessage)
 
-router.get('/receiver/:id', [auth, checkUser], getReceiverMessage)
+router.get('/receiver/', [auth, checkUser], getReceiverMessage)
 
-router.get('/sender/:id', [auth, checkUser], getSenderMessage)
+router.get('/sender/', [auth, checkUser], getSenderMessage)
 
 router.patch('/:id', [auth, checkUser], modifyMessage)
 

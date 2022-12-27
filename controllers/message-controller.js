@@ -1,32 +1,35 @@
 import Message from '../schemas/message-schema.js'
-import sharp from 'sharp'
+import { encrypt, decrypt } from '../middleware/encryption-middleware.js'
 
 export const getReceiverMessage = (req, res) => {
-    const { id } = req.params
-    Message.find({receiverId: id})
+    const id = req.headers['receiver']
+    Message.find({ receiverId: id })
         .then((data, err) => {
             const result = data.map(item => {
+                const message = decrypt(item.message)
                 return {
                     "senderId": item.senderId, 
                     "receiverId": item.receiverId,
-                    "message": item.message,
+                    "message": message,
                     "image": item.image,
                     "date": item.date
                 }
             })
             res.send(result)
         })
+
 }
 
 export const getSenderMessage = (req, res) => {
-    const { id } = req.params
+    const id = req.headers['sender']
     Message.find({senderId: id})
         .then((data, err) => {
             const result = data.map(item => {
+                const message = decrypt(item.message)
                 return {
                     "senderId": item.senderId, 
                     "receiverId": item.receiverId,
-                    "message": item.message,
+                    "message": message,
                     "image": item.image,
                     "date": item.date
                 }
@@ -35,24 +38,26 @@ export const getSenderMessage = (req, res) => {
         })
 }
 
-export const createMessage = (req, res) => {
+export const createMessage = async (req, res) => {
 
-    if (req.file.path) {
+    const encryptMessage = encrypt(req.body.message)
+
+    if (req.file) {
         Message.create({
             senderId: req.body.senderId,
             receiverId: req.body.receiverId,
-            message: req.body.message,
+            message: encryptMessage,
             image: req.file.path,
             status: req.body.status 
-        }, (err, data) => { if (err) return handleError(err) })
+        }, (err, data) => { if (err) return err })
         res.sendStatus(200);
     } else {
         Message.create({
             senderId: req.body.senderId,
             receiverId: req.body.receiverId,
-            message: req.body.message,
+            message: encryptMessage,
             status: req.body.status 
-        }, (err, data) => { if (err) return handleError(err) })
+        }, (err, data) => { if (err) return err })
         res.sendStatus(200);
     }
 }
@@ -75,7 +80,11 @@ export const filterMessage = (req, res) => {
 
     Message.find({})
         .then((data, err) => {
-            data.map((item) => { if (item.status === filterChoice) { filter.push(item) } })
+            data.map((item) => { 
+                if (item.status === filterChoice) {
+                    filter.push(item) 
+                } 
+            })
             res.status(200).send(filter)
         })
 }

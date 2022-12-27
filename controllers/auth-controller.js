@@ -56,6 +56,8 @@ export const userRegister = async (req, res) => {
             )
     
             user.token = token
+
+            user.save()
     
             const data = {
                 "username": user.username,
@@ -65,6 +67,7 @@ export const userRegister = async (req, res) => {
                 "phoneNo": user.phoneNo,
                 "token": user.token
             }
+
     
             res.status(201).json(data);
         }
@@ -113,6 +116,8 @@ export const adminRegister = async (req, res) => {
 
         admin.token = token
 
+        admin.save()
+
         const data = {
             "username": admin.username,
             "firstName": admin.firstName,
@@ -150,6 +155,8 @@ export const userLogin = async (req, res) => {
             )
 
             user.token = token
+
+            user.save()
             
             const data = {
                 "username": user.username,
@@ -190,6 +197,8 @@ export const adminLogin = async (req, res) => {
 
             admin.token = token
 
+            admin.save()
+
             const data = {
                 "username": admin.username,
                 "firstName": admin.firstName,
@@ -205,10 +214,4 @@ export const adminLogin = async (req, res) => {
         console.log(err)
         res.sendStatus(500)
     }
-}
-
-export const getToken = (req, res, next) => {
-
-    console.log(req.user)
-    next()
 }

@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken"
 
 dotenv.config()
 
-const TOKENSESSION = "4h"
+const TOKENSESSION = "2h"
 
 const {TOKEN_KEY} = process.env
 
@@ -221,6 +221,8 @@ export const adminLogin = async (req, res) => {
             }
 
             res.status(201).json(data);
+        } else {
+            res.sendStatus(403)
         }
     } catch (err) {
         console.log(err)

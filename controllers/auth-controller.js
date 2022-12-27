@@ -12,6 +12,8 @@ const TOKENSESSION = "4h"
 
 const {TOKEN_KEY} = process.env
 
+// DEVs need to pass a defualt image
+
 export const userRegister = async (req, res) => {
     
     try {
@@ -87,7 +89,7 @@ export const adminRegister = async (req, res) => {
     try {
 
         const { username, firstName, lastName, email, phoneNo, password } = req.body
-
+        
         const image = req.file.path
 
         if (!(username && firstName && lastName && email && password)) {

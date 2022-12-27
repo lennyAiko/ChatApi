@@ -5,13 +5,13 @@ const storage = multer.diskStorage({
         cb(null, './uploads')
     },
     filename: async (req, file, cb) => {
-        cb(null, `${new Date().toISOString().replace(/:/g, '-')}-${file.originalname}.webp`)
+        cb(null, `${new Date().toISOString().replace(/:/g, '-')}-${file.originalname}`)
     }
 })
 
 const fileFilter = (req, file, cb) => {
     // reject a file
-    if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/jpeg' || file.mimetype == 'image/jpg')  cb(null, true)
+    if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png' || file.mimetype == 'image/jpg')  cb(null, true)
     else cb(null, false)
 }
 

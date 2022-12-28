@@ -1,4 +1,5 @@
 import Admin from '../schemas/admin-schema.js'
+import { decrypt } from '../middleware/encryption-middleware.js'
 
 export const modifyAdmin = (req, res) => {
     const key = req.params
@@ -22,9 +23,12 @@ export const getApiKey = (req, res) => {
     const key = req.headers['x-access-token']
 
     try {
-        Admin.find({key})
+        Admin.findOne({token: key})
             .then(data => {
-                if(data) res.status(200).send(data)
+                if(data) {
+                    const decryptKey = decrypt(data.apiKey)
+                    res.status(200).send(decryptKey)
+                }
             })
     } catch (err) {
         console.log(err)

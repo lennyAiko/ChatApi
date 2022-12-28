@@ -31,9 +31,9 @@ export const userRegister = async (req, res) => {
 
         const oldUser = await User.findOne({ username })
 
-        const decryptApiKey = decrypt(apiKey)
+        const encryptApiKey = encrypt(apiKey)
 
-        const checkAdmin = await Admin.findOne({ decryptApiKey })
+        const checkAdmin = await Admin.findOne({ encryptApiKey })
 
         if (!checkAdmin) {
             res.sendStatus(403)
@@ -52,7 +52,7 @@ export const userRegister = async (req, res) => {
                 phoneNo,
                 password: passwordEncrypt,
                 image,
-                adminId: apiKey
+                adminId: encryptApiKey
             })
     
             const token = jwt.sign(

@@ -8,6 +8,7 @@ import userRoutes from './routes/user-route.js'
 import messageRoutes from './routes/message-route.js'
 import authRoutes from './routes/auth-route.js'
 import analyticsRoutes from './routes/analytics-route.js'
+import adminRoutes from './routes/admin-route.js'
 
 dotenv.config()
 
@@ -29,6 +30,7 @@ app.use('/users', userRoutes)
 app.use('/messages', messageRoutes)
 app.use('/auth', authRoutes)
 app.use('/analytics', analyticsRoutes)
+app.use('/admin', adminRoutes)
 
 app.get('/', (req, res) => res.send("Hello this is Chatify."))
 

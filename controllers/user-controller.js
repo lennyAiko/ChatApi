@@ -39,13 +39,16 @@ export const modifyUser = (req, res) => {
 
     const data = req.body
 
-    try {
-        User.findOneAndUpdate({_id: key}, {...data}, {new: true})
-        .then(data => {
-            if (data) res.sendStatus(202)
-        })
-    } catch (err) {
-        console.log(err)
-        res.sendStatus(400)
+    if (data.username) res.sendStatus(403)
+    else {
+        try {
+            User.findOneAndUpdate({_id: key['id']}, {...data}, {new: true})
+            .then(data => {
+                if (data) res.sendStatus(202)
+            })
+        } catch (err) {
+            console.log(err)
+            res.sendStatus(400)
+        }
     }
 }

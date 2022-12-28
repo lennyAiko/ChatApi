@@ -16,3 +16,18 @@ export const modifyAdmin = (req, res) => {
     }
     
 }
+
+export const getApiKey = (req, res) => {
+
+    const key = req.headers['x-access-token']
+
+    try {
+        Admin.find({key})
+            .then(data => {
+                if(data) res.status(200).send(data)
+            })
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(400)
+    }
+}

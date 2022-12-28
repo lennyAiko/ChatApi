@@ -1,10 +1,11 @@
-import User from "../schemas/user-schema.js"
-import Admin from '../schemas/admin-schema.js'
 import bcrypt from 'bcrypt'
 import { v4 as uuidv4 } from 'uuid'
 import dotenv from 'dotenv'
-
 import jwt from "jsonwebtoken"
+
+import User from "../schemas/user-schema.js"
+import Admin from '../schemas/admin-schema.js'
+import { encrypt, decrypt } from '../middleware/encryption-middleware.js'
 
 dotenv.config()
 
@@ -30,7 +31,9 @@ export const userRegister = async (req, res) => {
 
         const oldUser = await User.findOne({ username })
 
-        const checkAdmin = await Admin.findOne({ apiKey })
+        const decryptApiKey = decrypt(apiKey)
+
+        const checkAdmin = await Admin.findOne({ decryptApiKey })
 
         if (!checkAdmin) {
             res.sendStatus(403)
@@ -104,6 +107,8 @@ export const adminRegister = async (req, res) => {
 
         let passwordEncrypt = await bcrypt.hash(password, 10)
 
+        let encryptApiKey = encrypt(uuidv4())
+
         const admin = await Admin.create({
             username,
             firstName,
@@ -112,7 +117,7 @@ export const adminRegister = async (req, res) => {
             phoneNo: Number(phoneNo),
             image,
             password: passwordEncrypt,
-            apiKey: uuidv4()
+            apiKey: encryptApiKey
         })
 
         const token = jwt.sign(

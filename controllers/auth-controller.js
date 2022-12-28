@@ -33,7 +33,7 @@ export const userRegister = async (req, res) => {
 
         const encryptApiKey = encrypt(apiKey)
 
-        const checkAdmin = await Admin.findOne({ encryptApiKey })
+        const checkAdmin = await Admin.find({ encryptApiKey })
 
         if (!checkAdmin) {
             res.sendStatus(403)

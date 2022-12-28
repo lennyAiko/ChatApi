@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     phoneNo: Number,
     password: String,
     image: String,
-    adminId: String,
+    adminId: {},
     token: String,
     date: {type: Date, default: Date.now}
 })

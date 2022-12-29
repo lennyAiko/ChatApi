@@ -4,18 +4,37 @@ import { decrypt } from '../middleware/encryption-middleware.js'
 export const modifyAdmin = (req, res) => {
     const key = req.params
 
-    const data = req.body
+    if (req.file) {
+        const data = req.body
 
-    if (data.username) res.sendStatus(403)
-    else {
-        try {
-            Admin.findOneAndUpdate({_id: key['id']}, {...data}, {new: true})
-            .then(data => {
-                if (data) res.sendStatus(202)
-            })
-        } catch (err) {
-            console.log(err)
-            res.sendStatus(400)
+        const image = req.file.path
+
+        if (data.username) res.sendStatus(403)
+        else {
+            try {
+                Admin.findOneAndUpdate({_id: key['id']}, {...data, image}, {new: true})
+                .then(data => {
+                    if (data) res.sendStatus(202)
+                })
+            } catch (err) {
+                console.log(err)
+                res.sendStatus(400)
+            }
+        }
+    } else {
+        const data = req.body
+
+        if (data.username) res.sendStatus(403)
+        else {
+            try {
+                Admin.findOneAndUpdate({_id: key['id']}, {...data}, {new: true})
+                .then(data => {
+                    if (data) res.sendStatus(202)
+                })
+            } catch (err) {
+                console.log(err)
+                res.sendStatus(400)
+            }
         }
     }
     

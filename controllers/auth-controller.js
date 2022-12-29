@@ -21,64 +21,122 @@ export const userRegister = async (req, res) => {
 
         const { username, firstName, lastName, email, phoneNo, password } = req.body
 
-        const image = req.file.path
+        if (req.file) {
+            const apiKey = req.headers["apikey"]
 
-        const apiKey = req.headers["apikey"]
+            const image = req.file.path
 
-        if (!(username && firstName && lastName && email && password)) {
-            res.sendStatus(400)
-        }
-
-        const oldUser = await User.findOne({ username })
-
-        const encryptApiKey = encrypt(apiKey)
-
-        const checkAdmin = await Admin.find({ encryptApiKey })
-
-        if (!checkAdmin) {
-            res.sendStatus(403)
-        } else {
-            if (oldUser) {
-                return res.sendStatus(409)
+            if (!(username && firstName && lastName && email && password)) {
+                res.sendStatus(400)
             }
-    
-            let passwordEncrypt = await bcrypt.hash(password, 10)
-    
-            const user = await User.create({
-                username,
-                firstName,
-                lastName,
-                email: email.toLowerCase(),
-                phoneNo,
-                password: passwordEncrypt,
-                image,
-                adminId: encryptApiKey
-            })
-    
-            const token = jwt.sign(
-                { user_id: user.id, username },
-                TOKEN_KEY,
-                {
-                    expiresIn: TOKENSESSION
+
+            const oldUser = await User.findOne({ username })
+
+            const encryptApiKey = encrypt(apiKey)
+
+            const checkAdmin = await Admin.find({ encryptApiKey })
+
+            if (!checkAdmin) {
+                res.sendStatus(403)
+            } else {
+                if (oldUser) {
+                    return res.sendStatus(409)
                 }
-            )
-    
-            user.token = token
+        
+                let passwordEncrypt = await bcrypt.hash(password, 10)
+        
+                const user = await User.create({
+                    username,
+                    firstName,
+                    lastName,
+                    email: email.toLowerCase(),
+                    phoneNo,
+                    password: passwordEncrypt,
+                    image,
+                    adminId: encryptApiKey
+                })
+        
+                const token = jwt.sign(
+                    { user_id: user.id, username },
+                    TOKEN_KEY,
+                    {
+                        expiresIn: TOKENSESSION
+                    }
+                )
+        
+                user.token = token
 
-            user.save()
-    
-            const data = {
-                "username": user.username,
-                "firstName": user.firstName,
-                "lastName": user.lastName,
-                "email": user.email,
-                "phoneNo": user.phoneNo,
-                "image": user.image,
-                "token": user.token
+                user.save()
+        
+                const data = {
+                    "username": user.username,
+                    "firstName": user.firstName,
+                    "lastName": user.lastName,
+                    "email": user.email,
+                    "phoneNo": user.phoneNo,
+                    "image": user.image,
+                    "token": user.token
+                }
+
+        
+                res.status(201).json(data);
+            }
+        } else {
+            const apiKey = req.headers["apikey"]
+
+            if (!(username && firstName && lastName && email && password)) {
+                res.sendStatus(400)
             }
 
-    
-            res.status(201).json(data);
+            const oldUser = await User.findOne({ username })
+
+            const encryptApiKey = encrypt(apiKey)
+
+            const checkAdmin = await Admin.find({ encryptApiKey })
+
+            if (!checkAdmin) {
+                res.sendStatus(403)
+            } else {
+                if (oldUser) {
+                    return res.sendStatus(409)
+                }
+        
+                let passwordEncrypt = await bcrypt.hash(password, 10)
+        
+                const user = await User.create({
+                    username,
+                    firstName,
+                    lastName,
+                    email: email.toLowerCase(),
+                    phoneNo,
+                    password: passwordEncrypt,
+                    adminId: encryptApiKey
+                })
+        
+                const token = jwt.sign(
+                    { user_id: user.id, username },
+                    TOKEN_KEY,
+                    {
+                        expiresIn: TOKENSESSION
+                    }
+                )
+        
+                user.token = token
+
+                user.save()
+        
+                const data = {
+                    "username": user.username,
+                    "firstName": user.firstName,
+                    "lastName": user.lastName,
+                    "email": user.email,
+                    "phoneNo": user.phoneNo,
+                    "token": user.token
+                }
+
+        
+                res.status(201).json(data);
+            }
         }
 
     } catch (err) {
@@ -93,56 +151,105 @@ export const adminRegister = async (req, res) => {
 
         const { username, firstName, lastName, email, phoneNo, password } = req.body
         
-        const image = req.file.path
+        if (req.file) {
+            const image = req.file.path
 
-        if (!(username && firstName && lastName && email && password)) {
-            res.sendStatus(400)
-        }
-
-        const oldUser = await Admin.findOne({ username })
-
-        if (oldUser) {
-            return res.sendStatus(409)
-        }
-
-        let passwordEncrypt = await bcrypt.hash(password, 10)
-
-        let encryptApiKey = encrypt(uuidv4())
-
-        const admin = await Admin.create({
-            username,
-            firstName,
-            lastName,
-            email: email.toLowerCase(),
-            phoneNo: Number(phoneNo),
-            image,
-            password: passwordEncrypt,
-            apiKey: encryptApiKey
-        })
-
-        const token = jwt.sign(
-            { admin_id: admin.id, username },
-            TOKEN_KEY,
-            {
-                expiresIn: TOKENSESSION
+            if (!(username && firstName && lastName && email && password)) {
+                res.sendStatus(400)
             }
-        )
 
-        admin.token = token
+            const oldUser = await Admin.findOne({ username })
 
-        admin.save()
+            if (oldUser) {
+                return res.sendStatus(409)
+            }
 
-        const data = {
-            "username": admin.username,
-            "firstName": admin.firstName,
-            "lastName": admin.lastName,
-            "email": admin.email,
-            "image": admin.image,
-            "phoneNo": admin.phoneNo,
-            "token": admin.token
+            let passwordEncrypt = await bcrypt.hash(password, 10)
+
+            let encryptApiKey = encrypt(uuidv4())
+
+            const admin = await Admin.create({
+                username,
+                firstName,
+                lastName,
+                email: email.toLowerCase(),
+                phoneNo: Number(phoneNo),
+                image,
+                password: passwordEncrypt,
+                apiKey: encryptApiKey
+            })
+
+            const token = jwt.sign(
+                { admin_id: admin.id, username },
+                TOKEN_KEY,
+                {
+                    expiresIn: TOKENSESSION
+                }
+            )
+
+            admin.token = token
+
+            admin.save()
+
+            const data = {
+                "username": admin.username,
+                "firstName": admin.firstName,
+                "lastName": admin.lastName,
+                "email": admin.email,
+                "image": admin.image,
+                "phoneNo": admin.phoneNo,
+                "token": admin.token
+            }
+
+            res.status(201).json(data);
+        } else {
+            if (!(username && firstName && lastName && email && password)) {
+                res.sendStatus(400)
+            }
+
+            const oldUser = await Admin.findOne({ username })
+
+            if (oldUser) {
+                return res.sendStatus(409)
+            }
+
+            let passwordEncrypt = await bcrypt.hash(password, 10)
+
+            let encryptApiKey = encrypt(uuidv4())
+
+            const admin = await Admin.create({
+                username,
+                firstName,
+                lastName,
+                email: email.toLowerCase(),
+                phoneNo: Number(phoneNo),
+                password: passwordEncrypt,
+                apiKey: encryptApiKey
+            })
+
+            const token = jwt.sign(
+                { admin_id: admin.id, username },
+                TOKEN_KEY,
+                {
+                    expiresIn: TOKENSESSION
+                }
+            )
+
+            admin.token = token
+
+            admin.save()
+
+            const data = {
+                "username": admin.username,
+                "firstName": admin.firstName,
+                "lastName": admin.lastName,
+                "email": admin.email,
+                "phoneNo": admin.phoneNo,
+                "token": admin.token
+            }
+
+            res.status(201).json(data);
         }
-
-        res.status(201).json(data);
     } catch (err) {
         console.log(err)
         res.sendStatus(500)

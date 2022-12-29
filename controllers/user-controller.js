@@ -38,12 +38,6 @@ export const modifyUser = (req, res) => {
 
     const userToken = req.headers['x-access-token']
 
-    console.log(userToken)
-    
-    console.log(req.file)
-
-    console.log(req.body)
-
     if (req.file) {
 
         console.log('here')
@@ -66,11 +60,7 @@ export const modifyUser = (req, res) => {
     }
     } else {
 
-        console.log('here2')
-
         const data = req.body
-
-        console.log(data)
 
         if (data.username) res.sendStatus(403)
         else {

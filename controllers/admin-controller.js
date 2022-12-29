@@ -2,7 +2,7 @@ import Admin from '../schemas/admin-schema.js'
 import { decrypt } from '../middleware/encryption-middleware.js'
 
 export const modifyAdmin = (req, res) => {
-    const key = req.params
+    const adminToken = req.headers['x-access-token']
 
     if (req.file) {
         const data = req.body
@@ -12,7 +12,7 @@ export const modifyAdmin = (req, res) => {
         if (data.username) res.sendStatus(403)
         else {
             try {
-                Admin.findOneAndUpdate({_id: key['id']}, {...data, image}, {new: true})
+                Admin.findOneAndUpdate({token: adminToken}, {...data, image}, {new: true})
                 .then(data => {
                     if (data) res.sendStatus(202)
                 })
@@ -27,7 +27,7 @@ export const modifyAdmin = (req, res) => {
         if (data.username) res.sendStatus(403)
         else {
             try {
-                Admin.findOneAndUpdate({_id: key['id']}, {...data}, {new: true})
+                Admin.findOneAndUpdate({token: adminToken}, {...data}, {new: true})
                 .then(data => {
                     if (data) res.sendStatus(202)
                 })

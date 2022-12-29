@@ -35,15 +35,27 @@ export const searchUser = (req, res) => {
 }
 
 export const modifyUser = (req, res) => {
-    const key = req.params
+
+    const userToken = req.headers['x-access-token']
+
+    console.log(userToken)
+    
+    console.log(req.file)
+
+    console.log(req.body)
 
     if (req.file) {
+
+        console.log('here')
+
         const data = req.body
+
+        const image = req.file.path
 
         if (data.username) res.sendStatus(403)
         else {
             try {
-                User.findOneAndUpdate({_id: key['id']}, {...data}, {new: true})
+                User.findOneAndUpdate({token: userToken}, {...data, image}, {new: true})
                 .then(data => {
                     if (data) res.sendStatus(202)
                 })
@@ -53,12 +65,17 @@ export const modifyUser = (req, res) => {
             }
     }
     } else {
+
+        console.log('here2')
+
         const data = req.body
+
+        console.log(data)
 
         if (data.username) res.sendStatus(403)
         else {
             try {
-                User.findOneAndUpdate({_id: key['id']}, {...data}, {new: true})
+                User.findOneAndUpdate({token: userToken}, {...data}, {new: true})
                 .then(data => {
                     if (data) res.sendStatus(202)
                 })

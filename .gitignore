@@ -5,3 +5,4 @@ diagrams/
 status-codes.json
 yarn-error.log
 uploads/
+package-lock.json

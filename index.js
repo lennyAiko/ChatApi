@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import path from 'path'
 
 import friendRoutes from './routes/friends-route.js'
 import userRoutes from './routes/user-route.js'
@@ -23,6 +24,11 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true}, () => {
 app.use(bodyParser.json())
 
 app.use('/uploads', express.static('uploads'))
+
+// template
+const __dirname = path.resolve();
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 // routes
 app.use('/friends', friendRoutes)

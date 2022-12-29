@@ -38,6 +38,6 @@ app.use('/auth', authRoutes)
 app.use('/analytics', analyticsRoutes)
 app.use('/admin', adminRoutes)
 
-app.get('/', (req, res) => res.send("Hello this is Chatify."))
+app.get('/', (req, res) => res.render('index'))
 
 app.listen(PORT, () => console.log(`Server running on port: http://localhost:${PORT}`))

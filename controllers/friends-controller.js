@@ -25,15 +25,22 @@ export const createFriend = (req, res) => {
     res.sendStatus(200);
 }
 
-export const friendRequest = (req, res) => {
+export const friendRequest = async (req, res) => {
+
+    const userToken = req.headers['x-access-token']
+
+    const user = await User.findOne({token: userToken})
+
     Friend.find({status: false})
         .then((data, err) => {
             const result = data.map(item => {
-                return {
-                    "RequestSenderId": item.RequestSenderId, 
-                    "RequestReceiverId": item.RequestReceiverId,
-                    "status": item.status,
-                    "date": item.date
+                if (item.RequestReceiverId == user._id.toHexString()) {
+                    return {
+                        "RequestSenderId": item.RequestSenderId, 
+                        "RequestReceiverId": item.RequestReceiverId,
+                        "status": item.status,
+                        "date": item.date
+                    }
                 }
             })
             res.send(result)
@@ -59,23 +66,33 @@ export const friendList = (req, res) => {
 export const getFriendDetails = (req, res) => {
     const { id } = req.params
 
-    User.find({_id: id})
+    User.findOne({_id: id})
         .then((data, err) => {
-            res.send(data)
+            const result = {
+                "username": data.username,
+                "firstName": data.firstName,
+                "lastName": data.lastName,
+                "email": data.email,
+                "phoneNo": data.phoneNo,
+                "image": data.image
+            }
+            res.send(result)
         })
 }
 
 export const searchFriend = (req, res) => {
     const key = req.params
 
-    Friend.find({ key })
+    User.find({ key })
         .then((data, err) => {
             const result = data.map(item => {
                 return {
-                    "RequestSenderId": item.RequestSenderId, 
-                    "RequestReceiverId": item.RequestReceiverId,
-                    "status": item.status,
-                    "date": item.date
+                    "username": item.username,
+                    "firstName": item.firstName,
+                    "lastName": item.lastName,
+                    "email": item.email,
+                    "phoneNo": item.phoneNo,
+                    "image": item.image
                 }
             })
             res.send(result)

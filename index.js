@@ -24,6 +24,7 @@ mongoose.connect(MONGO_URL, {useNewUrlParser: true}, () => {
 app.use(bodyParser.json())
 
 app.use('/uploads', express.static('uploads'))
+app.use(express.static('static'))
 
 // template
 const __dirname = path.resolve();

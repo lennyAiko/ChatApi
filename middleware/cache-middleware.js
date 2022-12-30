@@ -1,4 +1,3 @@
-import express from 'express'
 import memcache from 'memory-cache'
 
 export const cache = (duration) => {

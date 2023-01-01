@@ -20,6 +20,10 @@ The code and blog tutorial for this project can be found at [my blog](https://le
 7. Visit http://localhost:[PORT]/auth/user_register to create a new user
 8. View endpoints on website for more details
 
+## Endpoints
+
+### Admin endpoints
+
 ## License
 
 Chatify's code archives and code examples are licensed under the ISC license.

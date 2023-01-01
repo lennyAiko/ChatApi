@@ -1,13 +1,18 @@
 import Message from '../schemas/message-schema.js'
 import { encrypt, decrypt } from '../middleware/encryption-middleware.js'
+import User from '../schemas/user-schema.js'
 
-export const getReceiverMessage = (req, res) => {
-    const id = req.headers['receiver']
-    Message.find({ receiverId: id })
+export const getReceiverMessage = async (req, res) => {
+    const id = req.headers['x-access-token']
+
+    const user = await User.findOne({token: id})
+
+    Message.find({ receiverId: user.id })
         .then((data, err) => {
             const result = data.map(item => {
                 const message = decrypt(item.message)
                 return {
+                    "id": item._id,
                     "senderId": item.senderId, 
                     "receiverId": item.receiverId,
                     "message": message,
@@ -20,13 +25,17 @@ export const getReceiverMessage = (req, res) => {
 
 }
 
-export const getSenderMessage = (req, res) => {
-    const id = req.headers['sender']
-    Message.find({senderId: id})
+export const getSenderMessage = async (req, res) => {
+    const id = req.headers['x-access-token']
+
+    const user = await User.findOne({token: id})
+    
+    Message.find({senderId: user.id})
         .then((data, err) => {
             const result = data.map(item => {
                 const message = decrypt(item.message)
                 return {
+                    "id": item._id,
                     "senderId": item.senderId, 
                     "receiverId": item.receiverId,
                     "message": message,
@@ -75,7 +84,7 @@ export const modifyMessage = (req, res) => {
 
 export const filterMessage = (req, res) => {
 
-    const filterChoice = req.params
+    const filterChoice = req.headers['choice']
     const filter = []
 
     Message.find({})

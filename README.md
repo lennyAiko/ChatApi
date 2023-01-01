@@ -22,7 +22,9 @@ The code and blog tutorial for this project can be found at [my blog](https://le
 
 ## Endpoints
 
-### Admin endpoints
+### Auth endpoints
+
+1. Create Admin: 
 
 ## License
 

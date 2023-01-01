@@ -35,6 +35,10 @@ app.use('/auth', authRoutes)
 app.use('/analytics', analyticsRoutes)
 app.use('/admin', adminRoutes)
 
-app.get('/', (req, res) => res.render('index'))
+app.get('/', (req, res) => res.status(200).send(`
+Hi, welcome to chatlify. <br>
+This is a ChatAPI that can be consumed by developers who want to create chat applications. <br>
+You can find the endpoints and discussion on my ReadME: https://github.com/lennyAiko/ChatApi
+`))
 
 app.listen(PORT, () => console.log(`Server running on port: http://localhost:${PORT}`))

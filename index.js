@@ -25,6 +25,7 @@ app.use(bodyParser.json())
 
 app.use('/uploads', express.static('uploads'))
 app.use(express.static('static'))
+app.use('/favicon_io', express.static('static/favicon_io'));
 
 // template
 const __dirname = path.resolve();

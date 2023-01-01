@@ -1,7 +1,13 @@
 * {
     font-family: ubuntu;
+    margin: 0px;
 }
 
 .container {
     margin: 0px
+}
+
+.navbar {
+    background-color: rgb(211,211,211);
+    padding: 15px;
 }

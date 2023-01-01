@@ -37,11 +37,11 @@ This is a chatApi for developers are may want to add chat feature to their produ
 1. Create Admin: Using form-data in postman. Below are the details to send to the API, you can choose to send an image or not, it can be added later on using the modify endpoint.
 Endpoint: https://graceful-shift-bee.cyclic.app/auth/admin_register
 Request: POST
-![create admin details](https://graceful-shift-bee.cyclic.app/create-admin.png)
+![create admin details](https://github.com/lennyAiko/ChatApi/blob/main/static/create-admin.png)
 2. Admin Sign in: Send the request as json to the API. Below are the details to send to the API. 
 Endpoint: https://graceful-shift-bee.cyclic.app/auth/admin_register
 Request: POST
-![log in admin details](https://graceful-shift-bee.cyclic.app/login-admin.png)
+![log in admin details](https://github.com/lennyAiko/ChatApi/blob/main/static/login-admin.png)
 3. User Register:   
 
 

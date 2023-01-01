@@ -27,11 +27,6 @@ app.use('/uploads', express.static('uploads'))
 app.use(express.static('static'))
 app.use('/favicon_io', express.static('static/favicon_io'));
 
-// template
-const __dirname = path.resolve();
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
 // routes
 app.use('/friends', friendRoutes)
 app.use('/users', userRoutes)

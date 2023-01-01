@@ -69,6 +69,7 @@ export const userRegister = async (req, res) => {
                 user.save()
         
                 const data = {
+                    "id": user._id,
                     "username": user.username,
                     "firstName": user.firstName,
                     "lastName": user.lastName,
@@ -192,6 +193,7 @@ export const adminRegister = async (req, res) => {
             admin.save()
 
             const data = {
+                "id": admin._id,
                 "username": admin.username,
                 "firstName": admin.firstName,
                 "lastName": admin.lastName,

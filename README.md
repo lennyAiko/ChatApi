@@ -34,22 +34,49 @@ This is a chatApi for developers are may want to add chat feature to their produ
 
 ### Auth endpoints
 
-1. `Create Admin`: Using form-data in postman. Below are the details to send to the API, you can choose to send an image or not, it can be added later on using the modify endpoint. <br />
+1. `Create Admin`: Using form-data in postman. Below are the details to send to the API, you can choose to send an image or not, it can be added later on using the modify endpoint. Advised to save the data sent. <br />
 `Endpoint`: https://graceful-shift-bee.cyclic.app/auth/admin_register <br />
-`Request`: POST
+`Request`: POST <br />
 ![create admin details](https://github.com/lennyAiko/ChatApi/blob/main/static/create-admin.png)
+
 2. `Admin Sign in`: Send the request as json to the API. Below are the details to send to the API. <br />
 `Endpoint`: https://graceful-shift-bee.cyclic.app/auth/admin_login <br />
-`Request`: POST
+`Request`: POST <br />
 ![log in admin details](https://github.com/lennyAiko/ChatApi/blob/main/static/login-admin.png)
-3. `User Register`: You need to send `apikey` as an header, containing the api key assigned to the admin. Afterwards using form-data, let the user details be sent to the API, it is optional to add an image to the request, can be done later in modify endpoint. <br />
+
+3. `User Register`: You need to send `apikey` as an header, containing the api key assigned to the admin. Afterwards using form-data, let the user details be sent to the API, it is optional to add an image to the request, can be done later in modify endpoint. Advised to save the data sent. <br />
 `Endpoint`: https://graceful-shift-bee.cyclic.app/auth/user_register <br />
-`Request`: POST
+`Request`: POST <br />
 ![user registration details](https://github.com/lennyAiko/ChatApi/blob/main/static/user-register.png) 
+
 4. `User Sign in`: Send the request as json to the API. Below are the details to send to the API. <br />
 `Endpoint`: https://graceful-shift-bee.cyclic.app/auth/user_login <br />
-`Request`: POST
+`Request`: POST <br />
+![log in user details](https://github.com/lennyAiko/ChatApi/blob/main/static/login-admin.png)
 
+### Admin endpoints
+
+1. `Modify Admin Details`: Send token through header as `x-access-token`, afterwards, send the id of the admin and the details of the admin you want to change. <br />
+`Endpoint`: https://graceful-shift-bee.cyclic.app/admin/modify <br />
+`Request`: PATCH <br />
+
+2. `Get API key`: Send token through header as `x-access-token`. <br />
+`Endpoint`: https://graceful-shift-bee.cyclic.app/admin/apikey <br />
+`Request`: GET <br />
+
+### User endpoints
+
+1. `Get Users`: Send token through header as `x-access-token`. Then a request that fetches all the users. <br />
+`Endpoint`: https://graceful-shift-bee.cyclic.app/users/ <br />
+`Request`: GET <br />
+
+2. `Search Users`: Send token through header as `x-access-token`, then send the search key as parameters to the API. <br />
+`Endpoint`: https://graceful-shift-bee.cyclic.app/users/search <br />
+`Request`: POST <br />
+
+3. `Modify User Details`: Send token through header as `x-access-token`, afterwards, send the id of the admin and the details of the admin you want to change as form-data if using postman, you can also send images. <br />
+`Endpoint`: https://graceful-shift-bee.cyclic.app/users/modify <br />
+`Request`: PATCH <br />
 
 ## License
 

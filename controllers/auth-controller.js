@@ -167,7 +167,9 @@ export const adminRegister = async (req, res) => {
 
             let passwordEncrypt = await bcrypt.hash(password, 10)
 
-            let encryptApiKey = encrypt(uuidv4())
+            const userkey = uuidv4()
+
+            let encryptApiKey = encrypt(userkey)
 
             const admin = await Admin.create({
                 username,
@@ -200,7 +202,8 @@ export const adminRegister = async (req, res) => {
                 "email": admin.email,
                 "image": admin.image,
                 "phoneNo": admin.phoneNo,
-                "token": admin.token
+                "token": admin.token,
+                "apikey": userkey
             }
 
             res.status(201).json(data);

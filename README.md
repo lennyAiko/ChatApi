@@ -128,11 +128,11 @@ This is a chatApi for developers are may want to add chat feature to their produ
 
 ### Analytics endpoints
 
-1. `Get user total messages`: Send token through header as `x-access-token`. Then you add `user-id` as part of the header. To get the total messages belonging to a user.
+1. `Get user total messages`: Send token through header as `x-access-token`. Then you add `user-id` as part of the header. To get the total messages belonging to a user. <br />
 `Endpoint`: https://graceful-shift-bee.cyclic.app/analytics/total_messages/ <br />
 `Request`: GET <br />
 
-2. `Get user total friends`: Send token through header as `x-access-token`. Then you add `user-id` as part of the header. To get the total friends belonging to a user.
+2. `Get user total friends`: Send token through header as `x-access-token`. Then you add `user-id` as part of the header. To get the total friends belonging to a user. <br />
 `Endpoint`: https://graceful-shift-bee.cyclic.app/analytics/total_friends/ <br />
 `Request`: GET <br />
 
@@ -144,7 +144,7 @@ This is a chatApi for developers are may want to add chat feature to their produ
 `Endpoint`: https://graceful-shift-bee.cyclic.app/analytics/total_users/ <br />
 `Request`: GET <br />
 
-5. `Get top users`: Send token through header as `x-access-token`. To get the top users under an admin.
+5. `Get top users`: Send token through header as `x-access-token`. To get the top users under an admin.<br />
 `Endpoint`: https://graceful-shift-bee.cyclic.app/analytics/top_users/ <br />
 `Request`: GET <br />
 
